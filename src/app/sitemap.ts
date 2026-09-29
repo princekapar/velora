@@ -4,7 +4,7 @@ import { getCategories } from '@/services/categoryService';
 import { getCollections } from '@/services/collectionService';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://velorahq.vercel.app';
 
   const [wallpapersRes, categories, collections] = await Promise.all([
     getWallpapers({ limit: 100 }),

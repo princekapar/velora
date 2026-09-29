@@ -63,7 +63,7 @@ export default function AdminSettingsPage() {
               Automated WebP/AVIF format conversion, dynamic responsive transformations, and safe unlinking.
             </p>
             <div className="pt-2 border-t border-white/5 font-mono text-[10px] text-zinc-400">
-              Cloud: <span className="text-orange-400 font-semibold">{status?.cloudinary?.cloudName || 'nepiabvz'}</span>
+              Cloud: <span className="text-orange-400 font-semibold">{status?.cloudinary?.cloudName || 'Configured via ENV'}</span>
             </div>
           </div>
         </div>

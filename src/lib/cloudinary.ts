@@ -4,9 +4,9 @@ export * from './cloudinaryClient';
 
 // Configure Cloudinary server-side
 cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME || process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || 'demo',
-  api_key: process.env.CLOUDINARY_API_KEY || '123456789012345',
-  api_secret: process.env.CLOUDINARY_API_SECRET || 'sample_secret',
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME || process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || '',
+  api_key: process.env.CLOUDINARY_API_KEY || '',
+  api_secret: process.env.CLOUDINARY_API_SECRET || '',
   secure: true,
 });
 
@@ -14,8 +14,17 @@ cloudinary.config({
  * Checks if real Cloudinary credentials are configured
  */
 export function isCloudinaryConfigured(): boolean {
+  const cloud = process.env.CLOUDINARY_CLOUD_NAME || process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
+  const key = process.env.CLOUDINARY_API_KEY;
   const secret = process.env.CLOUDINARY_API_SECRET;
-  return Boolean(secret && secret !== 'your_cloudinary_api_secret_here' && secret !== 'sample_secret');
+  return Boolean(
+    cloud &&
+    key &&
+    secret &&
+    cloud !== 'demo' &&
+    secret !== 'your_cloudinary_api_secret_here' &&
+    secret !== 'sample_secret'
+  );
 }
 
 /**

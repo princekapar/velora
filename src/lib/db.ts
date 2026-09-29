@@ -21,7 +21,10 @@ if (!global.mongooseCache) {
 }
 
 export async function connectToDatabase(): Promise<typeof mongoose | null> {
-  const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017/velora';
+  const uri = process.env.MONGODB_URI;
+  if (!uri) {
+    return null;
+  }
 
   // If active connection is on a different URI (e.g. was previously on localhost, now configured with Atlas)
   const isHostMismatch =

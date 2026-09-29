@@ -150,7 +150,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 A
               </div>
               <span className="font-medium text-zinc-200">
-                {adminUser?.email || 'admin@velora.art'}
+                {adminUser?.email || 'Admin'}
               </span>
             </div>
           </div>

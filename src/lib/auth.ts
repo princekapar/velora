@@ -4,13 +4,8 @@ import bcrypt from 'bcryptjs';
 import { connectToDatabase, isDatabaseConnected } from './db';
 import AdminModel from '@/models/Admin';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'velora_super_secret_jwt_key_987456321_luxury_platform';
+const JWT_SECRET = process.env.JWT_SECRET || 'velora_runtime_jwt_secret_token';
 const COOKIE_NAME = 'velora_admin_token';
-
-const DEFAULT_ADMIN = {
-  email: process.env.ADMIN_EMAIL || 'admin@velora.art',
-  password: process.env.ADMIN_PASSWORD || 'velora2026',
-};
 
 export interface AdminPayload {
   email: string;
@@ -31,8 +26,16 @@ export function verifyAdminToken(token: string): AdminPayload | null {
 }
 
 export async function validateAdminCredentials(email: string, password: string): Promise<boolean> {
-  // Check default env admin
-  if (email.toLowerCase() === DEFAULT_ADMIN.email.toLowerCase() && password === DEFAULT_ADMIN.password) {
+  const envAdminEmail = process.env.ADMIN_EMAIL?.trim();
+  const envAdminPassword = process.env.ADMIN_PASSWORD;
+
+  // Validate against configured environment variables
+  if (
+    envAdminEmail &&
+    envAdminPassword &&
+    email.trim().toLowerCase() === envAdminEmail.toLowerCase() &&
+    password === envAdminPassword
+  ) {
     return true;
   }
 

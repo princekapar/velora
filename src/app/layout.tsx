@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   description: 'Curated 4K, 8K, and OLED wallpapers for desktop and mobile displays. Designed with extreme attention to typography, resolution, and aesthetic fidelity.',
   keywords: ['wallpapers', '4k wallpapers', 'amoled wallpapers', 'phone wallpapers', 'desktop wallpapers', 'curated backgrounds'],
   authors: [{ name: 'VELORA Studio' }],
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://velorahq.vercel.app'),
   openGraph: {
     title: 'VELORA — Designed for Your Screen',
     description: 'Curated 4K, 8K, and OLED wallpapers for desktop and mobile displays.',
