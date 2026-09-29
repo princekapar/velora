@@ -10,7 +10,7 @@ export function getOptimizedImageUrl(
     height?: number;
     crop?: 'fill' | 'fit' | 'limit' | 'scale';
     quality?: 'auto' | 'auto:good' | 'auto:best' | number;
-    format?: 'webp' | 'avif' | 'auto';
+    format?: 'webp' | 'avif' | 'auto' | 'png';
   }
 ): string {
   if (!urlOrPublicId) return '';
@@ -36,9 +36,14 @@ export function getOptimizedImageUrl(
       const url = new URL(urlOrPublicId);
       if (options?.width) url.searchParams.set('w', options.width.toString());
       if (options?.height) url.searchParams.set('h', options.height.toString());
-      url.searchParams.set('auto', 'format');
+      if (options?.format === 'png') {
+        url.searchParams.delete('auto');
+        url.searchParams.set('fm', 'png');
+      } else {
+        url.searchParams.set('auto', 'format');
+      }
       url.searchParams.set('fit', options?.crop === 'fill' ? 'crop' : 'max');
-      url.searchParams.set('q', '85');
+      url.searchParams.set('q', '90');
       return url.toString();
     } catch (e) {
       return urlOrPublicId;
@@ -62,17 +67,17 @@ export function getDownloadUrl(
 ): string {
   switch (preset) {
     case 'iphone':
-      return getOptimizedImageUrl(url, { width: 1170, height: 2532, crop: 'fill' });
+      return getOptimizedImageUrl(url, { width: 1170, height: 2532, crop: 'fill', format: 'png' });
     case 'android':
-      return getOptimizedImageUrl(url, { width: 1080, height: 2400, crop: 'fill' });
+      return getOptimizedImageUrl(url, { width: 1080, height: 2400, crop: 'fill', format: 'png' });
     case 'desktop-4k':
-      return getOptimizedImageUrl(url, { width: 3840, height: 2160, crop: 'fill' });
+      return getOptimizedImageUrl(url, { width: 3840, height: 2160, crop: 'fill', format: 'png' });
     case 'desktop-2k':
-      return getOptimizedImageUrl(url, { width: 2560, height: 1440, crop: 'fill' });
+      return getOptimizedImageUrl(url, { width: 2560, height: 1440, crop: 'fill', format: 'png' });
     case 'desktop-fhd':
-      return getOptimizedImageUrl(url, { width: 1920, height: 1080, crop: 'fill' });
+      return getOptimizedImageUrl(url, { width: 1920, height: 1080, crop: 'fill', format: 'png' });
     case 'original':
     default:
-      return url;
+      return getOptimizedImageUrl(url, { format: 'png' });
   }
 }

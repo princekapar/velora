@@ -179,7 +179,7 @@ export default async function WallpaperDetailPage({ params }: WallpaperDetailPag
                 <div className="p-2.5 rounded-lg bg-white/[0.03] border border-white/5 space-y-0.5">
                   <span className="text-zinc-400 block text-[10px]">Format & Quality</span>
                   <span className="uppercase text-zinc-200 font-medium">
-                    {wallpaper.format || 'WEBP'} (Lossless)
+                    PNG (Lossless Master)
                   </span>
                 </div>
               </div>

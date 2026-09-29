@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { Download, Heart, Smartphone, Monitor, ArrowUpRight } from 'lucide-react';
 import { Wallpaper } from '@/types';
 import { getThumbnailUrl } from '@/lib/cloudinaryClient';
+import { downloadWallpaperAsPng } from '@/lib/downloadHelper';
 
 interface WallpaperCardProps {
   wallpaper: Wallpaper;
@@ -55,17 +56,10 @@ export default function WallpaperCard({ wallpaper, priority = false }: Wallpaper
       setDownloading(true);
       fetch(`/api/wallpapers/${wallpaper.slug}/download`, { method: 'POST' }).catch(() => {});
 
-      // Trigger download
-      const response = await fetch(wallpaper.imageUrl);
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `${wallpaper.slug}-velora-${wallpaper.resolution}.${wallpaper.format || 'jpg'}`;
-      document.body.appendChild(a);
-      a.click();
-      window.URL.revokeObjectURL(url);
-      document.body.removeChild(a);
+      await downloadWallpaperAsPng(
+        wallpaper.imageUrl,
+        `${wallpaper.slug}-velora-${wallpaper.resolution}.png`
+      );
     } catch (err) {
       window.open(wallpaper.imageUrl, '_blank');
     } finally {

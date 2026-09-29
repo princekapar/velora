@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Download, ChevronDown, Check, Smartphone, Monitor, Sparkles } from 'lucide-react';
 import { Wallpaper } from '@/types';
 import { getDownloadUrl } from '@/lib/cloudinaryClient';
+import { downloadWallpaperAsPng } from '@/lib/downloadHelper';
 
 interface DownloadDropdownProps {
   wallpaper: Wallpaper;
@@ -94,17 +95,7 @@ export default function DownloadDropdown({ wallpaper }: DownloadDropdownProps) {
       fetch(`/api/wallpapers/${wallpaper.slug}/download`, { method: 'POST' }).catch(() => {});
 
       const targetUrl = getDownloadUrl(wallpaper.imageUrl, opt.preset);
-      const res = await fetch(targetUrl);
-      const blob = await res.blob();
-      const blobUrl = window.URL.createObjectURL(blob);
-
-      const a = document.createElement('a');
-      a.href = blobUrl;
-      a.download = `${wallpaper.slug}-${opt.id}.${wallpaper.format || 'jpg'}`;
-      document.body.appendChild(a);
-      a.click();
-      window.URL.revokeObjectURL(blobUrl);
-      document.body.removeChild(a);
+      await downloadWallpaperAsPng(targetUrl, `${wallpaper.slug}-${opt.id}.png`);
     } catch (err) {
       window.open(wallpaper.imageUrl, '_blank');
     } finally {
